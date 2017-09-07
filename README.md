@@ -1,3 +1,5 @@
+![alt-text](http://i.imgur.com/XoTikUf.png)
+
 bergwerkLABS NickTool
 =====================
 Das NickTool ist dafür Zuständig, Spieler zu verstecken, damit sie von anderen Mitspielern nicht erkannt werden.
