@@ -20,8 +20,7 @@ Variablen
 ---------
 Auf Instanzvariablen soll immer über das this Keyword zugegriffen werden. Dies gilt auch für Instanzmethoden.
 
-Benennung der Variablen
------------------------
+### Benennung der Variablen
 Hier gelten die Java-Konventionen. Wobei bei eine Ausnahme erfolgt:
 Bei Akronymen wie z. B. XML oder JSON werden die Klassen-Namen nicht in all-caps geschrieben, sondern nur der Anfangsbuchstabe.
 
