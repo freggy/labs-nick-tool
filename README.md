@@ -77,7 +77,7 @@ Javadoc-Kommentare sollte so aussehen:
  */
 public void func(int integer) {}
 ```
-Zwischen der Auflistung der @param Notationen und der Beschreibung der Methode.
+Zwischen der Auflistung der `@param` Notationen und der Beschreibung der Methode.
 
 Klassen sollten wie folgt Kommentiert sein:
 ```JAVA
@@ -90,4 +90,4 @@ Klassen sollten wie folgt Kommentiert sein:
  */
 public class MyClass {}
 ```
-Zwischen der Beschreibung und @author muss immer eine Zeile frei bleiben. Ein neuer Paragraph wird immer mit eine einzelnen `<p>` begonnen und steht immer alleine in einer Zeile, dies gilt ebenfalls für Methoden-Beschreibungen.
+Zwischen der Beschreibung und `@author` muss immer eine Zeile frei bleiben. Ein neuer Paragraph wird immer mit eine einzelnen `<p>` begonnen und steht immer alleine in einer Zeile, dies gilt ebenfalls für Methoden-Beschreibungen.
