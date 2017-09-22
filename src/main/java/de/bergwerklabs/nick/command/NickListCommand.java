@@ -20,7 +20,7 @@ public class NickListCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (s.equals("nicklist")) { // TODO: check if player can nick
+        if (s.equals("nicklist")) { // TODO: check if player has permission
             if (commandSender instanceof Player) {
 
                 Player player = (Player) commandSender;

@@ -1,5 +1,5 @@
 name: LabsNickTool
-main: de.bergwerklabs.framework.nick.de.bergwerklabs.nick.LabsNickPlugin
+main: de.bergwerklabs.nick.LabsNickPlugin
 website: http://www.bergwerklabs.de
 author: Freggy
 version: 1.0

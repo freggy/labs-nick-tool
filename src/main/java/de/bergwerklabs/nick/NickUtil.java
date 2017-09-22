@@ -19,7 +19,7 @@ class NickUtil {
      * @return {@link List} of nicknames
      */
     static List<String> retrieveNickNames() {
-        return Arrays.asList("hello", "duno", "wtf");
+        return Arrays.asList("Ansage");
     }
 
     /**
