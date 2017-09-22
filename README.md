@@ -1,3 +1,5 @@
+![alt-text](http://i.imgur.com/XoTikUf.png)
+
 bergwerkLABS NickTool
 =====================
 Das NickTool ist dafür Zuständig, Spieler zu verstecken, damit sie von anderen Mitspielern nicht erkannt werden.
@@ -18,8 +20,7 @@ Variablen
 ---------
 Auf Instanzvariablen soll immer über das this Keyword zugegriffen werden. Dies gilt auch für Instanzmethoden.
 
-Benennung der Variablen
------------------------
+### Benennung der Variablen
 Hier gelten die Java-Konventionen. Wobei bei eine Ausnahme erfolgt:
 Bei Akronymen wie z. B. XML oder JSON werden die Klassen-Namen nicht in all-caps geschrieben, sondern nur der Anfangsbuchstabe.
 
@@ -75,7 +76,7 @@ Javadoc-Kommentare sollte so aussehen:
  */
 public void func(int integer) {}
 ```
-Zwischen der Auflistung der @param Notationen und der Beschreibung der Methode.
+Zwischen der Auflistung der `@param` Notationen und der Beschreibung der Methode.
 
 Klassen sollten wie folgt Kommentiert sein:
 ```JAVA
@@ -88,4 +89,4 @@ Klassen sollten wie folgt Kommentiert sein:
  */
 public class MyClass {}
 ```
-Zwischen der Beschreibung und @author muss immer eine Zeile frei bleiben. Ein neuer Paragraph wird immer mit eine einzelnen `<p>` begonnen und steht immer alleine in einer Zeile, dies gilt ebenfalls für Methoden-Beschreibungen.
+Zwischen der Beschreibung und `@author` muss immer eine Zeile frei bleiben. Ein neuer Paragraph wird immer mit eine einzelnen `<p>` begonnen und steht immer alleine in einer Zeile, dies gilt ebenfalls für Methoden-Beschreibungen.
