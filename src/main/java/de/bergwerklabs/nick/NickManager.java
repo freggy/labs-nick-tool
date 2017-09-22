@@ -7,10 +7,6 @@ import de.bergwerklabs.nick.api.NickInfo;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.google.common.collect.ImmutableSet;
 import de.bergwerklabs.framework.commons.spigot.entity.npc.PlayerSkin;
-import de.bergwerklabs.framework.nick.api.NickApi;
-import de.bergwerklabs.framework.nick.api.NickInfo;
-import de.bergwerklabs.framework.nick.api.event.NickAction;
-import de.bergwerklabs.framework.nick.api.event.NickEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

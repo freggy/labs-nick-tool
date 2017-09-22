@@ -1,7 +1,7 @@
 package de.bergwerklabs.nick.api.event;
 
-import de.bergwerklabs.nick.api.NickInfo;
 import de.bergwerklabs.framework.commons.spigot.general.LabsEvent;
+import de.bergwerklabs.nick.api.NickInfo;
 import org.bukkit.entity.Player;
 
 /**

@@ -1,8 +1,7 @@
 package de.bergwerklabs.nick.command;
 
-import de.bergwerklabs.framework.nick.LabsNickPlugin;
-import de.bergwerklabs.framework.nick.api.NickInfo;
 import de.bergwerklabs.nick.LabsNickPlugin;
+import de.bergwerklabs.nick.api.NickInfo;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
