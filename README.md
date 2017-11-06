@@ -16,11 +16,37 @@ Commands
 Code Konventionen
 =================
 
+Aufbau einer Klasse
+-------------------
+Diese Vorgabe muss nicht zwingen umgesetzt werden, dennoch sollte zumindest ein Wenig darauf geachtet werden.
+```
+public class MyClass {
+    
+    {getter}
+    
+    {setter}
+
+    {öffentliche variablen}
+    
+    {private Variablen}
+    
+    {konstruktoren}
+    
+    {öffentliche Instanzmethoden}
+    
+    {private Instanzmethoden}
+}
+``` 
+Die Methoden sollten zu dem nach Datentypen sortiert sein. Zwischen jedem Getter muss immer eine Zeile freibleiben, dies gilt auch für Setter.
+
+
+
 Variablen
 ---------
 Auf Instanzvariablen soll immer über das this Keyword zugegriffen werden. Dies gilt auch für Instanzmethoden.
 
-### Benennung der Variablen
+Benennung der Variablen
+-----------------------
 Hier gelten die Java-Konventionen. Wobei bei eine Ausnahme erfolgt:
 Bei Akronymen wie z. B. XML oder JSON werden die Klassen-Namen nicht in all-caps geschrieben, sondern nur der Anfangsbuchstabe.
 
@@ -56,7 +82,7 @@ Der obige Code zeigt, wie die Klammern gesetzt werden müssen. Zudem muss die er
 Kommentare
 ----------
 
-### Normale Kommentare
+### Kommentare
 Kommentare haben die selbe Einrückung, wie umgebende Code. Kommentar-Styles, die erlaubt sind:
 
 ```JAVA
@@ -66,7 +92,7 @@ Kommentare haben die selbe Einrückung, wie umgebende Code. Kommentar-Styles, di
 ```
 Jede andere Form von Kommentaren sollte nicht verwendet werden. Zudem sollte, wenn möglich, ausschließlich in Englisch kommentiert werden.
 
-### JavaDoc-Kommentare
+### JavaDoc
 Javadoc-Kommentare sollte so aussehen:
 ```JAVA
 /**
@@ -76,7 +102,7 @@ Javadoc-Kommentare sollte so aussehen:
  */
 public void func(int integer) {}
 ```
-Zwischen der Auflistung der `@param` Notationen und der Beschreibung der Methode.
+Zwischen der Auflistung der `@param`-Notationen und der Beschreibung der Methode muss immer eine Zeile frei bleiben.
 
 Klassen sollten wie folgt Kommentiert sein:
 ```JAVA
