@@ -1,8 +1,5 @@
 package de.bergwerklabs.nick;
 
-import de.bergwerklabs.framework.commons.spigot.nms.packet.v1_8.WrapperLoginServerSuccess;
-import de.bergwerklabs.framework.commons.spigot.nms.packet.v1_8.WrapperPlayServerChat;
-import de.bergwerklabs.framework.commons.spigot.nms.packet.v1_8.WrapperPlayServerTabComplete;
 import de.bergwerklabs.nick.api.NickApi;
 import de.bergwerklabs.nick.api.NickInfo;
 import com.comphenix.protocol.PacketType;
@@ -15,8 +12,6 @@ import de.bergwerklabs.framework.commons.spigot.nms.packet.v1_8.WrapperPlayServe
 import de.bergwerklabs.nick.command.NickCommand;
 import de.bergwerklabs.nick.command.NickListCommand;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
-import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -25,10 +20,10 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 /**
@@ -63,6 +58,7 @@ public class LabsNickPlugin extends JavaPlugin implements Listener {
         this.getCommand("nick").setExecutor(new NickCommand());
         this.getCommand("nicklist").setExecutor(new NickListCommand());
         this.manager = new NickManager(NickUtil.retrieveNickNames(), NickUtil.retrieveSkins());
+        this.getServer().getServicesManager().register(NickApi.class, this.manager, this, ServicePriority.Normal);
 
         SpigotCommons.getInstance().getProtocolManager().addPacketListener(new PacketAdapter(this, PacketType.Play.Server.PLAYER_INFO) {
             @Override
@@ -86,8 +82,6 @@ public class LabsNickPlugin extends JavaPlugin implements Listener {
             }
         });
     }
-
-
 
     @EventHandler
     private void onChat(AsyncPlayerChatEvent e) {
