@@ -15,14 +15,14 @@ public class NickInfo {
     /**
      * Real {@link WrappedGameProfile} of the player before he was nicked.
      */
-    public WrappedGameProfile getRealGameProfile() {
+    public NickProfile getRealGameProfile() {
         return realGameProfile;
     }
 
     /**
      * Gets the faked {@link WrappedGameProfile}.
      */
-    public WrappedGameProfile getFakeGameProfile() {
+    public NickProfile getFakeGameProfile() {
         return fakeGameProfile;
     }
 
@@ -40,7 +40,7 @@ public class NickInfo {
         return nickName;
     }
 
-    private WrappedGameProfile realGameProfile, fakeGameProfile;
+    private NickProfile realGameProfile, fakeGameProfile;
     private String nickName;
     private PlayerSkin skin;
 
@@ -49,7 +49,7 @@ public class NickInfo {
      * @param skin            {@link PlayerSkin} that the nicked player is currently wearing.
      * @param fakeName        Faked name that the player will receive.
      */
-    public NickInfo(WrappedGameProfile realGameProfile, WrappedGameProfile fakeGameProfile, PlayerSkin skin, String fakeName) {
+    public NickInfo(NickProfile realGameProfile, NickProfile fakeGameProfile, PlayerSkin skin, String fakeName) {
         this.realGameProfile = realGameProfile;
         this.fakeGameProfile = fakeGameProfile;
         this.nickName        = fakeName;

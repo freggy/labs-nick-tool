@@ -1,6 +1,9 @@
 package de.bergwerklabs.nick;
 
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.comphenix.protocol.wrappers.WrappedSignedProperty;
 import de.bergwerklabs.framework.commons.spigot.entity.npc.PlayerSkin;
+import de.bergwerklabs.nick.api.NickProfile;
 
 import java.util.*;
 
@@ -48,5 +51,10 @@ class NickUtil {
         while (takenNickNames.contains(selected));
 
         return selected;
+    }
+
+    static NickProfile toNickProfile(WrappedGameProfile profile) {
+        WrappedSignedProperty textures = (WrappedSignedProperty) profile.getProperties().get("textures").toArray()[0];
+        return new NickProfile(profile.getUUID(), profile.getName(), new PlayerSkin(textures.getValue(), textures.getSignature()));
     }
 }

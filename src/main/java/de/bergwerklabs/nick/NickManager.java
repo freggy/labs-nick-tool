@@ -1,5 +1,6 @@
 package de.bergwerklabs.nick;
 
+import de.bergwerklabs.nick.api.NickProfile;
 import de.bergwerklabs.nick.api.event.NickAction;
 import de.bergwerklabs.nick.api.NickApi;
 import de.bergwerklabs.nick.api.event.NickEvent;
@@ -77,9 +78,8 @@ class NickManager implements NickApi {
         player.setDisplayName(nickName);
         player.setCustomName(nickName);
 
-        WrappedGameProfile real = WrappedGameProfile.fromPlayer(player);
-        WrappedGameProfile fake = new WrappedGameProfile(player.getUniqueId(), nickName);
-        skin.inject(fake);
+        NickProfile real = NickUtil.toNickProfile(WrappedGameProfile.fromPlayer(player));
+        NickProfile fake = new NickProfile(player.getUniqueId(), nickName, skin);
 
         NickInfo info = new NickInfo(real, fake, skin, nickName);
         this.nickedPlayers.put(player.getUniqueId(), info);
