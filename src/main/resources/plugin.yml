@@ -3,7 +3,7 @@ main: de.bergwerklabs.nick.LabsNickPlugin
 website: http://www.bergwerklabs.de
 author: Freggy
 version: 1.0
-depend: [LabsFrameworkSpigotCommons]
+depend: [SpigotCommons]
 
 commands:
     nick:

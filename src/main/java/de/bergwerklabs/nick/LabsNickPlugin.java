@@ -1,11 +1,7 @@
 package de.bergwerklabs.nick;
 
 import com.comphenix.protocol.ProtocolManager;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
-import de.bergwerklabs.framework.commons.spigot.json.JsonUtil;
-import de.bergwerklabs.framework.commons.spigot.nms.packet.v1_8.WrapperPlayServerChat;
+import com.google.gson.*;
 import de.bergwerklabs.nick.api.NickApi;
 import de.bergwerklabs.nick.api.NickInfo;
 import com.comphenix.protocol.PacketType;
@@ -53,10 +49,6 @@ public class LabsNickPlugin extends JavaPlugin implements Listener {
 
     private static LabsNickPlugin instance;
     private NickManager manager;
-    private boolean removed = false;
-    private JsonParser parser = new JsonParser();
-
-    // TODO: listen for text message packets and replace with nick
 
     @Override
     public void onEnable() {
@@ -89,36 +81,10 @@ public class LabsNickPlugin extends JavaPlugin implements Listener {
                 event.setPacket(packet.getHandle());
             }
         });
-
-        protocolManager.addPacketListener(new PacketAdapter(this, PacketType.Play.Server.CHAT) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
-                // TODO: check outcome
-                WrapperPlayServerChat chat = new WrapperPlayServerChat(event.getPacket());
-                Player sentTo = event.getPlayer();
-
-                if (manager.isNicked(sentTo)) { // || partied with nicked guy
-                    return;
-                }
-
-                NickInfo info = manager.getNickInfo(sentTo);
-                JsonObject json = parser.parse(chat.getMessage().getJson()).getAsJsonObject();
-                modifyText(json, info.getNickName(), info.getRealGameProfile().getName());
-            }
-        });
     }
 
-    private void modifyText(JsonObject jsonObject, String fakeName, String realName) {
-        jsonObject.add("text", new JsonPrimitive(jsonObject.get("text").getAsString().replace(fakeName, realName)));
-        JsonUtil.jsonArrayToJsonObjectList(jsonObject.getAsJsonArray("extra")).forEach(extra -> {
-            extra.add("text", new JsonPrimitive(extra.get("text").getAsString().replace(fakeName, realName)));
-        });
-    }
-
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     private void onChat(AsyncPlayerChatEvent e) {
-        /*
-
         String message = e.getMessage();
         Player player = e.getPlayer();
 
@@ -136,7 +102,7 @@ public class LabsNickPlugin extends JavaPlugin implements Listener {
                 e.getRecipients().removeAll(this.manager.nickedPlayers.keySet().stream().map(Bukkit::getPlayer).collect(Collectors.toList()));
                 // TODO: send special message to party members of nicked players.
             }
-        } */
+        }
     }
 
     @EventHandler
@@ -167,7 +133,7 @@ public class LabsNickPlugin extends JavaPlugin implements Listener {
     private void onPlayerLogin(PlayerLoginEvent event) {
         // TODO: check if aut nick is enabled
         Player player = event.getPlayer();
-        if (player.getDisplayName().equals("ausderfuture")) return;
+        if (player.getDisplayName().equals("freggyy")) return;
         this.manager.nickPlayer(player);
     }
 }

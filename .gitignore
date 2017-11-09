@@ -36,6 +36,7 @@ manifest.mf
 
 # other files
 *.log*
+*.exe.stackdump
 
 # Ignore config folder for local testing
 config/
