@@ -1,7 +1,6 @@
 package de.bergwerklabs.nick;
 
 import com.comphenix.protocol.ProtocolManager;
-import com.google.gson.*;
 import de.bergwerklabs.nick.api.NickApi;
 import de.bergwerklabs.nick.api.NickInfo;
 import com.comphenix.protocol.PacketType;
@@ -81,28 +80,6 @@ public class LabsNickPlugin extends JavaPlugin implements Listener {
                 event.setPacket(packet.getHandle());
             }
         });
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    private void onChat(AsyncPlayerChatEvent e) {
-        String message = e.getMessage();
-        Player player = e.getPlayer();
-
-        if (manager.isNicked(player)) { // || partied with nicked guy
-            e.getRecipients().removeAll(this.manager.nickedPlayers.keySet().stream().map(Bukkit::getPlayer).collect(Collectors.toList()));
-            player.sendMessage(String.format(e.getFormat(), manager.getRealName(player), message)); // and send to party and other nicked players.
-        }
-
-        for (NickInfo info :  this.manager.nickedPlayers.values()) {
-            String nick = info.getNickName();
-            if (message.contains(nick)) {
-                String specialMessage;
-                specialMessage = String.format(e.getFormat(), e.getPlayer().getDisplayName(), message.replaceAll(nick, "§o" + info.getRealGameProfile().getName() + "§r"));
-                this.manager.nickedPlayers.keySet().forEach(uuid -> Bukkit.getPlayer(uuid).sendMessage(specialMessage));
-                e.getRecipients().removeAll(this.manager.nickedPlayers.keySet().stream().map(Bukkit::getPlayer).collect(Collectors.toList()));
-                // TODO: send special message to party members of nicked players.
-            }
-        }
     }
 
     @EventHandler
