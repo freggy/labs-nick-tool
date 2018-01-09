@@ -16,31 +16,6 @@ Commands
 Code Konventionen
 =================
 
-Aufbau einer Klasse
--------------------
-Diese Vorgabe muss nicht zwingen umgesetzt werden, dennoch sollte zumindest ein Wenig darauf geachtet werden.
-```
-public class MyClass {
-    
-    {getter}
-    
-    {setter}
-
-    {öffentliche variablen}
-    
-    {private Variablen}
-    
-    {konstruktoren}
-    
-    {öffentliche Instanzmethoden}
-    
-    {private Instanzmethoden}
-}
-``` 
-Die Methoden sollten zu dem nach Datentypen sortiert sein. Zwischen jedem Getter muss immer eine Zeile freibleiben, dies gilt auch für Setter.
-
-
-
 Variablen
 ---------
 Auf Instanzvariablen soll immer über das this Keyword zugegriffen werden. Dies gilt auch für Instanzmethoden.
