@@ -1,6 +1,7 @@
 package de.bergwerklabs.nick;
 
 import com.comphenix.protocol.ProtocolManager;
+import com.google.gson.Gson;
 import de.bergwerklabs.nick.api.NickApi;
 import de.bergwerklabs.nick.api.NickInfo;
 import com.comphenix.protocol.PacketType;
@@ -17,13 +18,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.FileReader;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -34,28 +34,57 @@ import java.util.stream.Collectors;
  *
  * @author Yannic Rieger
  */
-public class LabsNickPlugin extends JavaPlugin implements Listener {
+public class NickPlugin extends JavaPlugin implements Listener {
 
     /**
-     * Gets the instance of the {@link LabsNickPlugin} object.
+     * Gets the instance of the {@link NickPlugin} object.
      */
-    public static LabsNickPlugin getInstance() { return instance; }
+    public static NickPlugin getInstance() { return instance; }
 
     /**
      * Gets the {@link NickApi}.
      */
     public NickApi getNickApi() { return this.manager; }
 
-    private static LabsNickPlugin instance;
+    /**
+     * Gets the data access object for this plugin.
+     */
+    public NickDao getDao() {
+        return dao;
+    }
+
+    /**
+     * Whether the plugin is functional or not.
+     */
+    public boolean isFunctional() {
+        return isFunctional;
+    }
+
+    private static NickPlugin instance;
     private NickManager manager;
+    private NickDao dao;
+    private boolean isFunctional = false;
 
     @Override
     public void onEnable() {
         instance = this;
         Bukkit.getPluginManager().registerEvents(this, this);
+
         this.getCommand("nick").setExecutor(new NickCommand());
         this.getCommand("nicklist").setExecutor(new NickListCommand());
-        this.manager = new NickManager(NickUtil.retrieveNickNames(), NickUtil.retrieveSkins());
+
+        // TODO: get config
+
+        Optional<Config> configOptional = this.readConfig();
+        if (configOptional.isPresent()) {
+            Config config = configOptional.get();
+            this.dao = new NickDao(config);
+            this.isFunctional = true;
+        }
+        else Bukkit.getLogger().warning("Config not present, disabling nick functions...");
+
+        this.manager = new NickManager();
+
         this.getServer().getServicesManager().register(NickApi.class, this.manager, this, ServicePriority.Normal);
         ProtocolManager protocolManager = SpigotCommons.getInstance().getProtocolManager();
 
@@ -82,24 +111,7 @@ public class LabsNickPlugin extends JavaPlugin implements Listener {
         });
     }
 
-    @EventHandler
-    private void onTabComplete(PlayerChatTabCompleteEvent event) {
-        Player player = event.getPlayer();
-        Collection<String> matches = event.getTabCompletions();
 
-        if (!this.manager.isNicked(player)) { // TODO: && !isPartiedWith(playerToCheck, potentialMember)
-            matches.removeIf(match -> {
-                Player p = Bukkit.getPlayer(match);
-                return p != null && manager.isNicked(p);
-            });
-
-            manager.nickedPlayers.values().forEach(info -> {
-                if (info.getNickName().toLowerCase().startsWith(event.getLastToken().toLowerCase())) {
-                    matches.add(info.getNickName());
-                }
-            });
-        }
-    }
 
     @EventHandler
     private void onPlayerQuit(PlayerQuitEvent e) {
@@ -108,9 +120,21 @@ public class LabsNickPlugin extends JavaPlugin implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     private void onPlayerLogin(PlayerLoginEvent event) {
-        // TODO: check if aut nick is enabled
-        Player player = event.getPlayer();
-        if (player.getDisplayName().equals("freggyy")) return;
-        this.manager.nickPlayer(player);
+
+    }
+
+    /**
+     *
+     * @return
+     */
+    private Optional<Config> readConfig() {
+        try {
+            FileReader reader = new FileReader(this.getDataFolder().getAbsolutePath() + "/config.json");
+            return Optional.of(new Gson().fromJson(reader, Config.class));
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            return Optional.empty();
+        }
     }
 }

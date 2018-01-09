@@ -25,17 +25,6 @@ class NickManager implements NickApi {
 
     Map<UUID, NickInfo> nickedPlayers  = new HashMap<>();
     private Set<String> takenNickNames = new HashSet<>();
-    private List<String> nickNames;
-    private List<PlayerSkin> skins;
-
-    /**
-     * @param nickNames List of available nicknames.
-     * @param skins     List of available {@link PlayerSkin}s.
-     */
-    NickManager(List<String> nickNames, List<PlayerSkin> skins) {
-        this.nickNames = nickNames;
-        this.skins     = skins;
-    }
 
     @Override
     public boolean isNicked(Player player) {
@@ -72,8 +61,8 @@ class NickManager implements NickApi {
 
     @Override
     public NickInfo nickPlayer(Player player) {
-        String nickName = NickUtil.getUniqueNickName(this.nickNames, this.takenNickNames);
-        PlayerSkin skin = this.skins.get(new Random().nextInt(this.skins.size()));
+        String nickName = NickUtil.getUniqueNickName(this.takenNickNames);
+        PlayerSkin skin = NickUtil.getRandomSkin();
 
         player.setDisplayName(nickName);
         player.setCustomName(nickName);
@@ -99,7 +88,7 @@ class NickManager implements NickApi {
      * @param player Player that has been nicked.
      */
     private void resendPlayerInfo(Player player) {
-        Bukkit.getScheduler().callSyncMethod(LabsNickPlugin.getInstance(), () -> {
+        Bukkit.getScheduler().callSyncMethod(NickPlugin.getInstance(), () -> {
             List<Player> others = Bukkit.getOnlinePlayers().stream().filter(p -> !p.getUniqueId().equals(player.getUniqueId())).collect(Collectors.toList());
             others.forEach(p -> p.hidePlayer(player));
             others.forEach(p -> p.showPlayer(player));
