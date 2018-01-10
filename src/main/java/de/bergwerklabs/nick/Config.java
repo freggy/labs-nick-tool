@@ -8,14 +8,15 @@ package de.bergwerklabs.nick;
  */
 public class Config {
 
-    private String user, host, password, database;
+    private String user, host, password, database, game;
 
 
-    public Config(String user, String host, String password, String databse) {
+    public Config(String user, String host, String password, String database, String game) {
         this.user = user;
         this.host = host;
         this.password = password;
-        this.database = databse;
+        this.database = database;
+        this.game = game;
     }
 
     public String getUser() {
@@ -32,5 +33,9 @@ public class Config {
 
     public String getDatabase() {
         return database;
+    }
+
+    public String getGame() {
+        return game;
     }
 }

@@ -80,6 +80,11 @@ class NickManager implements NickApi {
         return info;
     }
 
+    @Override
+    public boolean canNick(Player player) {
+        return player.hasPermission("bergwerklabs.nick") && NickPlugin.getInstance().getTop3().contains(player.getUniqueId());
+    }
+
     /**
      * Re-sends PlayerInfo packet to update player name and skin.
      * This method internally calls {@link Player#hidePlayer(Player)} and {@link Player#showPlayer(Player)}

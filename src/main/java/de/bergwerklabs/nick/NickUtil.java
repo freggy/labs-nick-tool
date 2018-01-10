@@ -23,11 +23,13 @@ class NickUtil {
      * @return               a unique nick name which is not contained in takenNickNames.
      */
     static String getUniqueNickName(Set<String> takenNickNames) {
+        return "Harald";
+        /*
         Optional<String> nameOptional;
         do {
             nameOptional = NickPlugin.getInstance().getDao().retrieveRandomName();
         } while (!nameOptional.isPresent() || takenNickNames.contains(nameOptional.get()));
-        return nameOptional.get();
+        return nameOptional.get(); */
     }
 
     /**

@@ -2,6 +2,11 @@ package de.bergwerklabs.nick;
 
 import com.comphenix.protocol.ProtocolManager;
 import com.google.gson.Gson;
+import de.bergwerklabs.framework.commons.database.tablebuilder.Database;
+import de.bergwerklabs.framework.commons.database.tablebuilder.DatabaseType;
+import de.bergwerklabs.framework.commons.database.tablebuilder.statement.Row;
+import de.bergwerklabs.framework.commons.database.tablebuilder.statement.Statement;
+import de.bergwerklabs.framework.commons.database.tablebuilder.statement.StatementResult;
 import de.bergwerklabs.nick.api.NickApi;
 import de.bergwerklabs.nick.api.NickInfo;
 import com.comphenix.protocol.PacketType;
@@ -25,6 +30,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.FileReader;
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -60,10 +66,19 @@ public class NickPlugin extends JavaPlugin implements Listener {
         return isFunctional;
     }
 
+    /**
+     * Gets the {@link UUID}s of the TOP3 players.
+     */
+    public Set<UUID> getTop3() {
+        return this.top3;
+    }
+
     private static NickPlugin instance;
     private NickManager manager;
     private NickDao dao;
     private boolean isFunctional = false;
+    private Set<UUID> top3;
+    private Logger logger = Bukkit.getLogger();
 
     @Override
     public void onEnable() {
@@ -73,12 +88,11 @@ public class NickPlugin extends JavaPlugin implements Listener {
         this.getCommand("nick").setExecutor(new NickCommand());
         this.getCommand("nicklist").setExecutor(new NickListCommand());
 
-        // TODO: get config
-
         Optional<Config> configOptional = this.readConfig();
         if (configOptional.isPresent()) {
-            Config config = configOptional.get();
-            this.dao = new NickDao(config);
+            Config config     = configOptional.get();
+            this.dao          = new NickDao(config);
+            this.top3         = retrieveTop3(config);
             this.isFunctional = true;
         }
         else Bukkit.getLogger().warning("Config not present, disabling nick functions...");
@@ -96,7 +110,10 @@ public class NickPlugin extends JavaPlugin implements Listener {
 
                 WrapperPlayServerPlayerInfo packet  = new WrapperPlayServerPlayerInfo(event.getPacket());
                 List<PlayerInfoData> playerInfoData = packet.getData();
-                List<PlayerInfoData> toNick         = playerInfoData.stream().filter(data -> manager.nickedPlayers.containsKey(data.getProfile().getUUID())).collect(Collectors.toList());
+
+                if (playerInfoData == null) return;
+
+                List<PlayerInfoData> toNick = playerInfoData.stream().filter(data -> manager.nickedPlayers.containsKey(data.getProfile().getUUID())).collect(Collectors.toList());
 
                 playerInfoData.removeAll(toNick);
 
@@ -120,7 +137,11 @@ public class NickPlugin extends JavaPlugin implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     private void onPlayerLogin(PlayerLoginEvent event) {
+        Player player = event.getPlayer();
 
+        if (event.getPlayer().getName().equalsIgnoreCase("freggyy")) {
+            this.getNickApi().nickPlayer(player);
+        }
     }
 
     /**
@@ -136,5 +157,21 @@ public class NickPlugin extends JavaPlugin implements Listener {
             ex.printStackTrace();
             return Optional.empty();
         }
+    }
+
+    private Set<UUID> retrieveTop3(Config config) {
+        this.logger.info("Getting Top 3 players...");
+        Set<UUID> uuids = new HashSet<>();
+        Database database = new Database(DatabaseType.MySQL, config.getHost(), "playerdata", config.getUser(), config.getPassword());
+        Statement statement = database.prepareStatement("SELECT uuid FROM rankingcache WHERE gamemode = ?");
+        StatementResult result = statement.execute(config.getGame());
+        statement.close();
+
+        for (Row row : result.getRows()) {
+            UUID uuid = UUID.fromString(row.getString("uuid"));
+            this.logger.info("UUID is: " + uuid);
+            uuids.add(uuid);
+        }
+        return uuids;
     }
 }

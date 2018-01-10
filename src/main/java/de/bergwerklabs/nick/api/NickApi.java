@@ -59,4 +59,17 @@ public interface NickApi {
      * @return the {@link NickInfo} object containing basic information.
      */
     NickInfo nickPlayer(Player player);
+
+    /**
+     * Whether the player can nick or not. It's true under the following circumstances:
+     * <ul>
+     *     <li>The player is a team member
+     *     <li>The player is YouTuber
+     *     <li>The player is in the Top 3 of a game mode.
+     * </ul>
+     *
+     * @param player {@link Player} to check
+     * @return       whether the player can nick or not
+     */
+    boolean canNick(Player player);
 }

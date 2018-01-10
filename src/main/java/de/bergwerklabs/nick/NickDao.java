@@ -32,7 +32,7 @@ public class NickDao {
         return this.execute(statementResult -> {
             if (statementResult.isEmpty()) return Optional.empty();
             Row row = statementResult.getRows()[0];
-            return Optional.of(new PlayerSkin(row.getString("skin_value"), "signature"));
+            return Optional.of(new PlayerSkin(row.getString("skin_value"), row.getString("signature")));
         }, "SELECT signature, skin_value FROM player_skin ORDER BY RAND() LIMIT 1");
     }
 

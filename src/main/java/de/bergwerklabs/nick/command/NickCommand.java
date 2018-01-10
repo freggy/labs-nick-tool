@@ -2,6 +2,8 @@ package de.bergwerklabs.nick.command;
 
 import de.bergwerklabs.framework.commons.spigot.entity.npc.PlayerSkin;
 import de.bergwerklabs.nick.NickPlugin;
+import de.bergwerklabs.nick.api.NickApi;
+import de.bergwerklabs.nick.api.NickInfo;
 import de.bergwerklabs.nick.api.NickProfile;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,10 +29,9 @@ public class NickCommand implements CommandExecutor {
             return false;
         }
 
-        if (s.equals("nick")) { // TODO: check if player can nick
-            player.sendMessage("§6>> §eNick §6❘ §bNick ist zur Zeit nicht verfügbar.");
-            /*
-                NickApi api = NickPlugin.getInstance().getNickApi();
+        if (s.equals("nick") && NickPlugin.getInstance().getNickApi().canNick(player)) {
+            //player.sendMessage("§6>> §eNick §6❘ §bNick ist zur Zeit nicht verfügbar.");
+            NickApi api = NickPlugin.getInstance().getNickApi();
 
                 if (api.isNicked(player)) {
                     api.removeNick(player);
@@ -41,7 +42,7 @@ public class NickCommand implements CommandExecutor {
                 NickInfo info = NickPlugin.getInstance().getNickApi().nickPlayer(player);
                 player.sendMessage("§6>> §eNick §6❘ §7Dein Nickname lautet nun §b" + info.getNickName());
                 player.sendMessage("§6>> §eNick §6❘ §7Führe §b/nick §7aus um ihn zu entfernen.");
-                return true; */
+                return true;
         }
         return false;
     }
