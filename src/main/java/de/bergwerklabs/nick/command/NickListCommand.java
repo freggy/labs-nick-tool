@@ -28,18 +28,16 @@ public class NickListCommand implements CommandExecutor {
             return false;
         }
 
-        if (s.equals("nicklist") && NickPlugin.getInstance().getNickApi().canNick(player)) {
-                //player.sendMessage("§6>> §eNick §6❘ §bNick ist zur Zeit nicht verfügbar.");
+        if (s.equals("nicklist") || NickPlugin.getInstance().getNickApi().canNick(player)) {
+            player.sendMessage("§6>> §eNick §6❘ §7Liste aller zurzeit genickten Spieler:");
+            Set<NickInfo> nickInfos = NickPlugin.getInstance().getNickApi().getNickedPlayerInfos();
 
-                player.sendMessage("§6>> §eNick §6❘ §7Liste aller zurzeit genickten Spieler:");
-                Set<NickInfo> nickInfos = NickPlugin.getInstance().getNickApi().getNickedPlayerInfos();
-
-                if (nickInfos.size() != 0) {
-                    NickPlugin.getInstance().getNickApi().getNickedPlayerInfos().forEach(info -> {
-                        player.sendMessage("§a■ §f" + info.getRealGameProfile().getName() + " §b➟ §f" + info.getNickName());
-                    });
-                }
-                else player.sendMessage("§6>> §eNick §6❘ §cEs sind keine Spieler genickt.");
+            if (nickInfos.size() != 0) {
+                NickPlugin.getInstance().getNickApi().getNickedPlayerInfos().forEach(info -> {
+                    player.sendMessage("§a■ §f" + info.getRealGameProfile().getName() + " §b➟ §f" + info.getNickName());
+                });
+            }
+            else player.sendMessage("§6>> §eNick §6❘ §cEs sind keine Spieler genickt.");
         }
         return false;
     }

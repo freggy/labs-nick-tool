@@ -18,6 +18,7 @@ import de.bergwerklabs.framework.commons.spigot.SpigotCommons;
 import de.bergwerklabs.framework.commons.spigot.nms.packet.v1_8.WrapperPlayServerPlayerInfo;
 import de.bergwerklabs.nick.command.NickCommand;
 import de.bergwerklabs.nick.command.NickListCommand;
+import de.bergwerklabs.party.api.PartyApi;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -106,15 +107,25 @@ public class NickPlugin extends JavaPlugin implements Listener {
             @Override
             public void onPacketSending(PacketEvent event) {
                 Player player = event.getPlayer();
-                if (manager.isNicked(player)) return;
-
                 WrapperPlayServerPlayerInfo packet  = new WrapperPlayServerPlayerInfo(event.getPacket());
                 List<PlayerInfoData> playerInfoData = packet.getData();
 
                 if (playerInfoData == null) return;
 
                 List<PlayerInfoData> toNick = playerInfoData.stream().filter(data -> manager.nickedPlayers.containsKey(data.getProfile().getUUID())).collect(Collectors.toList());
+                List<PlayerInfoData> partied = new ArrayList<>();
+                PlayerInfoData self = null;
+                for (PlayerInfoData data : toNick) {
+                    if (data.getProfile().getUUID().equals(player.getUniqueId())) {
+                        toNick.remove(data);
+                    }
+                    // Add all player to list that the player should see
+                    if (PartyApi.isPartiedWith(player.getUniqueId(), data.getProfile().getUUID())) {
+                        partied.add(data);
+                    }
+                }
 
+                toNick.removeAll(partied);
                 playerInfoData.removeAll(toNick);
 
                 playerInfoData.addAll(toNick.stream().map(data -> {

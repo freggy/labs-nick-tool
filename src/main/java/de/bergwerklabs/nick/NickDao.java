@@ -20,7 +20,7 @@ public class NickDao {
 
     private Database database;
 
-    public NickDao(Config config) {
+    NickDao(Config config) {
         this.database = new Database(DatabaseType.MySQL, config.getHost(), config.getDatabase(), config.getUser(), config.getPassword());
     }
 
@@ -34,17 +34,6 @@ public class NickDao {
             Row row = statementResult.getRows()[0];
             return Optional.of(new PlayerSkin(row.getString("skin_value"), row.getString("signature")));
         }, "SELECT signature, skin_value FROM player_skin ORDER BY RAND() LIMIT 1");
-    }
-
-    /**
-     *
-     */
-    public Optional<String> retrieveRandomName() {
-        return this.execute(statementResult -> {
-            if (statementResult.isEmpty()) return Optional.empty();
-            Row row = statementResult.getRows()[0];
-            return Optional.of(row.getString("name"));
-        },"SELECT name FROM nickname ORDER BY RAND() LIMIT 1");
     }
 
     private <T> T execute(Function<StatementResult, T> function, String query, Object... params) {

@@ -72,4 +72,11 @@ public interface NickApi {
      * @return       whether the player can nick or not
      */
     boolean canNick(Player player);
+
+    /**
+     *
+     * @param player
+     * @return
+     */
+    boolean isPartiedWithNickedPlayer(Player player);
 }

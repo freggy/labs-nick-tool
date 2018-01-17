@@ -2,6 +2,7 @@ package de.bergwerklabs.nick;
 
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedSignedProperty;
+import de.bergwerklabs.framework.commons.misc.NicknameGenerator;
 import de.bergwerklabs.framework.commons.spigot.entity.npc.PlayerSkin;
 import de.bergwerklabs.nick.api.NickProfile;
 
@@ -23,13 +24,11 @@ class NickUtil {
      * @return               a unique nick name which is not contained in takenNickNames.
      */
     static String getUniqueNickName(Set<String> takenNickNames) {
-        return "Harald";
-        /*
-        Optional<String> nameOptional;
+        String nickName;
         do {
-            nameOptional = NickPlugin.getInstance().getDao().retrieveRandomName();
-        } while (!nameOptional.isPresent() || takenNickNames.contains(nameOptional.get()));
-        return nameOptional.get(); */
+            nickName = NicknameGenerator.generate();
+        } while (takenNickNames.contains(nickName));
+        return nickName;
     }
 
     /**

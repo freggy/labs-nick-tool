@@ -29,7 +29,7 @@ public class NickCommand implements CommandExecutor {
             return false;
         }
 
-        if (s.equals("nick") && NickPlugin.getInstance().getNickApi().canNick(player)) {
+        if (s.equals("nick") || NickPlugin.getInstance().getNickApi().canNick(player)) {
             //player.sendMessage("§6>> §eNick §6❘ §bNick ist zur Zeit nicht verfügbar.");
             NickApi api = NickPlugin.getInstance().getNickApi();
 

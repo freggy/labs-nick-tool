@@ -8,6 +8,8 @@ import de.bergwerklabs.nick.api.NickInfo;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.google.common.collect.ImmutableSet;
 import de.bergwerklabs.framework.commons.spigot.entity.npc.PlayerSkin;
+import de.bergwerklabs.party.api.Party;
+import de.bergwerklabs.party.api.PartyApi;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -83,6 +85,15 @@ class NickManager implements NickApi {
     @Override
     public boolean canNick(Player player) {
         return player.hasPermission("bergwerklabs.nick") && NickPlugin.getInstance().getTop3().contains(player.getUniqueId());
+    }
+
+    @Override
+    public boolean isPartiedWithNickedPlayer(Player player) {
+        Optional<Party> partyOptional = PartyApi.getParty(player.getUniqueId());
+        return partyOptional.map(party -> party.getMembers().stream()
+                                               .filter(member -> Bukkit.getPlayer(member) != null)
+                                               .map(Bukkit::getPlayer)
+                                               .anyMatch(this::isNicked)).orElse(false);
     }
 
     /**
