@@ -84,7 +84,7 @@ class NickManager implements NickApi {
 
     @Override
     public boolean canNick(Player player) {
-        return player.hasPermission("bergwerklabs.nick") && NickPlugin.getInstance().getTop3().contains(player.getUniqueId());
+        return player.hasPermission("bergwerklabs.nick"); /*&& NickPlugin.getInstance().getTop3().contains(player.getUniqueId());*/
     }
 
     @Override

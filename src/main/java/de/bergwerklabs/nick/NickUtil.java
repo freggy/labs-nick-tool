@@ -17,6 +17,13 @@ import java.util.*;
  */
 class NickUtil {
 
+    private static PlayerSkin[] skins;
+    private static int index;
+
+    static void init() {
+        skins = NickPlugin.getInstance().getDao().retrieveRandomSkins();
+    }
+
     /**
      * Gets a unique nickname from the database.
      *
@@ -37,11 +44,7 @@ class NickUtil {
      * @return a skin wrapped in {@link PlayerSkin}.
      */
     static PlayerSkin getRandomSkin() {
-        Optional<PlayerSkin> skinOptional;
-        do {
-           skinOptional = NickPlugin.getInstance().getDao().retrieveRandomSkin();
-        } while (!skinOptional.isPresent());
-        return skinOptional.get();
+        return skins[index++];
     }
 
     /**

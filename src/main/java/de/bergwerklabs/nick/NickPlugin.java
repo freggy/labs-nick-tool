@@ -2,11 +2,14 @@ package de.bergwerklabs.nick;
 
 import com.comphenix.protocol.ProtocolManager;
 import com.google.gson.Gson;
+import de.bergwerklabs.atlantis.client.base.playerdata.PlayerdataSet;
+import de.bergwerklabs.atlantis.client.base.playerdata.SettingsFlag;
 import de.bergwerklabs.framework.commons.database.tablebuilder.Database;
 import de.bergwerklabs.framework.commons.database.tablebuilder.DatabaseType;
 import de.bergwerklabs.framework.commons.database.tablebuilder.statement.Row;
 import de.bergwerklabs.framework.commons.database.tablebuilder.statement.Statement;
 import de.bergwerklabs.framework.commons.database.tablebuilder.statement.StatementResult;
+import de.bergwerklabs.framework.commons.misc.NicknameGenerator;
 import de.bergwerklabs.nick.api.NickApi;
 import de.bergwerklabs.nick.api.NickInfo;
 import com.comphenix.protocol.PacketType;
@@ -86,6 +89,8 @@ public class NickPlugin extends JavaPlugin implements Listener {
         instance = this;
         Bukkit.getPluginManager().registerEvents(this, this);
 
+        NicknameGenerator.generate(); // Generate a name since the first one takes a while
+
         this.getCommand("nick").setExecutor(new NickCommand());
         this.getCommand("nicklist").setExecutor(new NickListCommand());
 
@@ -99,6 +104,8 @@ public class NickPlugin extends JavaPlugin implements Listener {
         else Bukkit.getLogger().warning("Config not present, disabling nick functions...");
 
         this.manager = new NickManager();
+
+        NickUtil.init(); // retrieve 100 skins to use
 
         this.getServer().getServicesManager().register(NickApi.class, this.manager, this, ServicePriority.Normal);
         ProtocolManager protocolManager = SpigotCommons.getInstance().getProtocolManager();
@@ -149,9 +156,10 @@ public class NickPlugin extends JavaPlugin implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     private void onPlayerLogin(PlayerLoginEvent event) {
         Player player = event.getPlayer();
-
-        if (event.getPlayer().getName().equalsIgnoreCase("freggyy")) {
-            this.getNickApi().nickPlayer(player);
+        PlayerdataSet set = new PlayerdataSet(player.getUniqueId());
+        set.loadAndWait();
+        if (this.manager.canNick(event.getPlayer()) && !set.getPlayerSettings().isSet(SettingsFlag.GLOBAL_AUTO_NICK_DISABLED))  {
+            this.manager.nickPlayer(player);
         }
     }
 

@@ -7,7 +7,9 @@ import de.bergwerklabs.framework.commons.database.tablebuilder.statement.Stateme
 import de.bergwerklabs.framework.commons.database.tablebuilder.statement.StatementResult;
 import de.bergwerklabs.framework.commons.spigot.entity.npc.PlayerSkin;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 
 /**
@@ -28,12 +30,15 @@ public class NickDao {
      *
      * @return
      */
-    public Optional<PlayerSkin> retrieveRandomSkin() {
+    public PlayerSkin[] retrieveRandomSkins() {
         return this.execute(statementResult -> {
-            if (statementResult.isEmpty()) return Optional.empty();
-            Row row = statementResult.getRows()[0];
-            return Optional.of(new PlayerSkin(row.getString("skin_value"), row.getString("signature")));
-        }, "SELECT signature, skin_value FROM player_skin ORDER BY RAND() LIMIT 1");
+            PlayerSkin[] skins = new PlayerSkin[100];
+            Row[] rows = statementResult.getRows();
+            for (int i = 0; i < skins.length; i++) {
+                skins[i] = new PlayerSkin(rows[i].getString("skin_value"), rows[i].getString("signature"));
+            }
+            return skins;
+        }, "SELECT signature, skin_value FROM player_skin ORDER BY RAND() LIMIT 100");
     }
 
     private <T> T execute(Function<StatementResult, T> function, String query, Object... params) {
