@@ -1,82 +1,81 @@
 package de.bergwerklabs.nick.api;
 
-import org.bukkit.entity.Player;
-
 import java.util.Set;
+import org.bukkit.entity.Player;
 
 /**
  * Created by Yannic Rieger on 03.09.2017.
- * <p>
- * Interface providing methods for nicking players and receiving nick information.
+ *
+ * <p>Interface providing methods for nicking players and receiving nick information.
  *
  * @author Yannic Rieger
  */
 public interface NickApi {
 
-    /**
-     * Checks whether a player is nicked or not.
-     *
-     * @param player Player to check.
-     * @return a value indicating whether or not the player is nicked.
-     */
-    boolean isNicked(Player player);
+  /**
+   * Checks whether a player is nicked or not.
+   *
+   * @param player Player to check.
+   * @return a value indicating whether or not the player is nicked.
+   */
+  boolean isNicked(Player player);
 
-    /**
-     * Gets the real name of the player, {@code null} if he is not nicked.
-     *
-     * @param player Player to get the real name from.
-     * @return the real name of the player, {@code null} if he is not nicked.
-     */
-    String getRealName(Player player);
+  /**
+   * Gets the real name of the player, {@code null} if he is not nicked.
+   *
+   * @param player Player to get the real name from.
+   * @return the real name of the player, {@code null} if he is not nicked.
+   */
+  String getRealName(Player player);
 
-    /**
-     * Gets a list of {@link NickInfo}, {@code null} if he is not nicked.
-     *
-     * @return {@link NickInfo} of this player, {@code null} if he is not nicked.
-     */
-    Set<NickInfo> getNickedPlayerInfos();
+  /**
+   * Gets a list of {@link NickInfo}, {@code null} if he is not nicked.
+   *
+   * @return {@link NickInfo} of this player, {@code null} if he is not nicked.
+   */
+  Set<NickInfo> getNickedPlayerInfos();
 
-    /**
-     * Gets {@link NickInfo} of this player, {@code null} if he is not nicked.
-     *
-     * @param player Player to retrieve info from.
-     * @return {@link NickInfo} of this player, {@code null} if he is not nicked.
-     */
-    NickInfo getNickInfo(Player player);
+  /**
+   * Gets {@link NickInfo} of this player, {@code null} if he is not nicked.
+   *
+   * @param player Player to retrieve info from.
+   * @return {@link NickInfo} of this player, {@code null} if he is not nicked.
+   */
+  NickInfo getNickInfo(Player player);
 
-    /**
-     * Removes the nick of a player.
-     *
-     * @param player Player to remove nick from.
-     */
-    void removeNick(Player player);
+  /**
+   * Removes the nick of a player.
+   *
+   * @param player Player to remove nick from.
+   */
+  void removeNick(Player player);
 
-    /**
-     * Nicks a player. Nicking a player changes the skin and the name to other players.
-     * Party members will not see the change.
-     *
-     * @param player Player to nick.
-     * @return the {@link NickInfo} object containing basic information.
-     */
-    NickInfo nickPlayer(Player player);
+  /**
+   * Nicks a player. Nicking a player changes the skin and the name to other players. Party members
+   * will not see the change.
+   *
+   * @param player Player to nick.
+   * @return the {@link NickInfo} object containing basic information.
+   */
+  NickInfo nickPlayer(Player player);
 
-    /**
-     * Whether the player can nick or not. It's true under the following circumstances:
-     * <ul>
-     *     <li>The player is a team member
-     *     <li>The player is YouTuber
-     *     <li>The player is in the Top 3 of a game mode.
-     * </ul>
-     *
-     * @param player {@link Player} to check
-     * @return       whether the player can nick or not
-     */
-    boolean canNick(Player player);
+  /**
+   * Whether the player can nick or not. It's true under the following circumstances:
+   *
+   * <ul>
+   *   <li>The player is a team member
+   *   <li>The player is YouTuber
+   *   <li>The player is in the Top 3 of a game mode.
+   * </ul>
+   *
+   * @param player {@link Player} to check
+   * @return whether the player can nick or not
+   */
+  boolean canNick(Player player);
 
-    /**
-     *
-     * @param player
-     * @return
-     */
-    boolean isPartiedWithNickedPlayer(Player player);
+  /**
+   * @param player
+   * @return
+   */
+  boolean isPartiedWithNickedPlayer(Player player);
 }
