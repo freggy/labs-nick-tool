@@ -113,7 +113,8 @@ class NickManager implements NickApi {
    */
   private void resendPlayerInfo(Player player) {
     Bukkit.getScheduler()
-        .callSyncMethod(NickPlugin.getInstance(), () -> {
+        .callSyncMethod(NickPlugin.getInstance(),
+            () -> {
               List<Player> others =
                   Bukkit.getOnlinePlayers()
                       .stream()
@@ -126,7 +127,8 @@ class NickManager implements NickApi {
   }
 
   private NickProfile createFakeProfile(UUID uuid) {
-    // test 9
-    return new NickProfile(uuid, NickUtil.getUniqueNickName(this.takenNickNames), NickUtil.getRandomSkin());
+    // test 10
+    return new NickProfile(
+        uuid, NickUtil.getUniqueNickName(this.takenNickNames), NickUtil.getRandomSkin());
   }
 }
