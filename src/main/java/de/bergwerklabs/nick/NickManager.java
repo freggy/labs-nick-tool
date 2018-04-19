@@ -123,7 +123,7 @@ class NickManager implements NickApi {
   }
 
   private NickProfile createFakeProfile(UUID uuid) {
-    // test 5
+    // test 6
     return new NickProfile(uuid, NickUtil.getUniqueNickName(this.takenNickNames), NickUtil.getRandomSkin());
   }
 }
