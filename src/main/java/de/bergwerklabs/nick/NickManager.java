@@ -112,13 +112,8 @@ class NickManager implements NickApi {
    * @param player Player that has been nicked.
    */
   private void resendPlayerInfo(Player player) {
-    Bukkit.getScheduler()
-        .callSyncMethod(
-            NickPlugin.getInstance(),
-            () -> {
-              List<Player> others =
-                  Bukkit.getOnlinePlayers()
-                      .stream()
+    Bukkit.getScheduler().callSyncMethod(NickPlugin.getInstance(), () -> {
+          List<Player> others = Bukkit.getOnlinePlayers().stream()
                       .filter(p -> !p.getUniqueId().equals(player.getUniqueId()))
                       .collect(Collectors.toList());
               others.forEach(p -> p.hidePlayer(player));
@@ -128,7 +123,6 @@ class NickManager implements NickApi {
   }
 
   private NickProfile createFakeProfile(UUID uuid) {
-    return new NickProfile(
-        uuid, NickUtil.getUniqueNickName(this.takenNickNames), NickUtil.getRandomSkin());
+    return new NickProfile(uuid, NickUtil.getUniqueNickName(this.takenNickNames), NickUtil.getRandomSkin());
   }
 }
