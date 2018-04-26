@@ -113,7 +113,8 @@ class NickManager implements NickApi {
    */
   private void resendPlayerInfo(Player player) {
     Bukkit.getScheduler()
-        .callSyncMethod(NickPlugin.getInstance(),
+        .callSyncMethod(
+            NickPlugin.getInstance(),
             () -> {
               List<Player> others =
                   Bukkit.getOnlinePlayers()
